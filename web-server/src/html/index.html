@@ -1,0 +1,52 @@
+<!-- ./web-server/html/js/index.html  file:-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Star Wars Database</title>
+  <link rel="stylesheet" href="/css/styles.css" />
+  <script>
+    const BUSINESS_TIER_CONTAINER = "app-server";
+    const DOMAIN = "tallgray.net";
+    const BUSINESS_TIER_CONTAINER_PORT = "3000";
+  </script>
+</head>
+<body>
+  <main>
+    <h1 class="title">Star Wars Database</h1>
+
+    <hr />
+
+    <section class="indent">
+      <h2 class="subtitle">Characters</h2>
+      <!-- Display the JSON payload in pretty JSON format directly in the body -->
+      <pre id="jsonSnippet" class="prettyprint"></pre>
+    </section>
+  </main>
+
+  <!-- Code snippet box for JSON data (hidden) -->
+  <div style="display: none;">
+    <h2>JSON Data</h2>
+    <pre id="jsonHidden" class="prettyprint"></pre>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+  <script src="js/scripts.js"></script>
+  
+  <script>
+    // Define a function to update the #jsonSnippet element with the JSON data
+    function updateJsonSnippet(data) {
+      const prettyJSON = JSON.stringify(data, null, 2); // Convert to pretty JSON format with 2 spaces indentation
+      $('#jsonSnippet').text(prettyJSON);
+    }
+
+    // Call the updateJsonSnippet function with the JSON data fetched by scripts.js
+    $(document).ready(() => {
+      // Assuming scripts.js provides a function named fetchData that returns the JSON data
+      const jsonData = fetchData();
+      updateJsonSnippet(jsonData);
+    });
+  </script>
+</body>
+</html>

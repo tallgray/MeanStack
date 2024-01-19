@@ -1,0 +1,60 @@
+/* ./web-server/src/css/styles.css file: */
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #f0f0f0;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.title {
+  color: #1a237e;
+  font-size: 2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #0d47a1;
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.indent {
+  margin-left: 20px;
+}
+
+ul {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  margin-bottom: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: #1565c0;
+  font-weight: bold;
+}
+
+.alert {
+  font-size: 1em;
+  cursor: pointer;
+  color: #d32f2f;
+}
+
+#msg {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.hidden {
+  display: none;
+}

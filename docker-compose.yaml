@@ -1,0 +1,76 @@
+# docker-compose.yaml file:
+version: '3.7'
+
+networks:
+  BRIDGE:
+    driver: bridge
+  LAN:
+    external: true
+
+volumes:
+  mongo-db:
+    driver_opts:
+      type: "nfs"
+      o: "addr=truenas.tallgray.net,nolock,rw,soft,nfsvers=4"
+      device: ":/mnt/nas/nfs-1/volumes/swmean_mongo-db"
+    labels:
+      - "com.docker.volume.user=mongo-db:27017"
+
+services:
+  app-server:
+    depends_on:
+      - mongo-db
+    build:
+      context: ./app-server
+      dockerfile: Dockerfile
+    container_name: swmean-app-server
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    networks:
+      BRIDGE:
+      LAN:
+        ipv4_address: 10.220.0.67
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  web-server:
+    build:
+      context: ./web-server
+      dockerfile: Dockerfile
+    container_name: swmean-web-server
+    environment:
+      - DOMAIN=tallgray.net
+      - BUSINESS_TIER_CONTAINER=app-server
+      - BUSINESS_TIER_CONTAINER_PORT=3000
+    ports:
+      - "80:80"
+    env_file:
+      - .env
+    networks:
+      BRIDGE:
+      LAN:
+        ipv4_address: 10.220.0.66
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:80/index.html"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  mongo-db:
+    build:
+      context: ./mongo-db
+      dockerfile: Dockerfile
+    container_name: swmean-mongo-db
+    ports:
+      - "27017:27017"
+    env_file:
+      - .env
+    networks:
+      BRIDGE:
+    volumes:
+      - mongo-db:/data/db
