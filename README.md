@@ -39,3 +39,12 @@ Make sure you have the following installed on your system:
 
    ```bash
    git clone https://github.com/tallgray/MeanStack.git
+
+
+1. Clone the repository:
+
+   ```bash
+   docker network create -d macvlan --subnet=10.220.0.0/24 --gateway=10.220.0.1 --ip-range=10.220.0.64/27 -o parent=eth0 LAN
+
+   mkdir /mnt/nas/nfs-1/volumes/${PROJECT}_mongo-db
+* The ${PROJECT} refers to the dotenv file variable, but this will not be read into the Docker host bash shell. So, you will need to define it, to match the name of your project root folder. When cloning this repo, it will be named 'MeanStack'.
