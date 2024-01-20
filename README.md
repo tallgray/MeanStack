@@ -41,10 +41,25 @@ Make sure you have the following installed on your system:
    git clone https://github.com/tallgray/MeanStack.git
 
 
-1. Clone the repository:
+2. Create the Docker network and volume NFS directory:
 
    ```bash
    docker network create -d macvlan --subnet=10.220.0.0/24 --gateway=10.220.0.1 --ip-range=10.220.0.64/27 -o parent=eth0 LAN
 
    mkdir /mnt/nas/nfs-1/volumes/${PROJECT}_mongo-db
-* The ${PROJECT} refers to the dotenv file variable, but this will not be read into the Docker host bash shell. So, you will need to define it, to match the name of your project root folder. When cloning this repo, it will be named 'MeanStack'.
+* The Docker network values for subnet, gateway, ip-range and parent should be customized to match your local environment and host machine. Using the bash command 'ip a' on your Docker host will help you to locate these specifics.
+* The ${PROJECT} refers to the dotenv file variable, but this will not be read into the Docker host bash shell. So, you will need to define it to match the name of your project root folder. When cloning this repo, it will be named 'MeanStack'.
+* If you do not have an NFS service that is mounted to the Docker host, you may remove the 'volumes:' definition sections from the Docker Compose YAML file. This will result in the mongo-db container no longer having persistent storage and therefore the database will be deleted each time the container is stopped or recreated.
+
+3. Navigate to the project directory:
+
+   ```bash
+   cd MeanStack
+
+4. Update the .env file with your project-specific variables:
+   ```bash
+   nano .env
+
+5. Build and start the project using Docker Compose:
+   ```bash
+   docker-compose up -d --build
